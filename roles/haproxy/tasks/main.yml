@@ -1,0 +1,22 @@
+--- 
+
+- name: Ensure Haproxy is installed
+  apt: name=haproxy state=present
+
+- name: Ensure Haproxy is enabled
+  lineinfile:
+    dest: /etc/default/haproxy
+    regexp: "ENABLE.+$"
+    line: "ENABLED=1"
+    state: present
+
+- name: Copy Haproxy configuration file
+  template:
+    src: haproxy.cfg.j2
+    dest: /etc/haproxy/haproxy.cfg
+    mode: 0644
+    validate: haproxy -f %s -c -q
+  notify: restart haproxy
+
+- name: Ensure haproxy is started and enbaled on boot
+  service: name=haproxy state=started enabled=yes

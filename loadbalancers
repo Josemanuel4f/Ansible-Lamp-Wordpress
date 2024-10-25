@@ -1,0 +1,2 @@
+[loadbalancers]
+loadbalancer ansible_host=192.168.56.11 ansible_user=root ansible_python_interpreter=/usr/bin/python3
